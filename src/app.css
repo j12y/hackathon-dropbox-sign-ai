@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        background-color: theme(colors.slate.50);
+    }
+
+    h1 {
+        @apply text-3xl text-black font-bold uppercase first-letter:text-4xl mt-6;
+    }
+
+    h2 { 
+        @apply text-2xl text-slate-700 font-bold mt-4;
+    }
+
+    button {
+        @apply rounded-lg bg-slate-500 px-3 py-3 font-medium hover:bg-slate-700 text-white mt-4 mr-4 shadow-lg shadow-slate-300 hover:shadow-slate-400
+    }
+
+}
