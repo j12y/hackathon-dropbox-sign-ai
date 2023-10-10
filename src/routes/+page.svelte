@@ -1,5 +1,6 @@
 <script lang="ts">
     import WillGenerator from "$lib/wills/generator.svelte";
+    import WitnessPlayer from "$lib/witnesses/player.svelte";
 
 
     let isWillComplete = false;
@@ -8,6 +9,9 @@
     let isWillGeneratorActive = false;
     let generatorButtonText = 'Get Started';
 
+    let witnessPlayer;
+    let isWitnessesActive = false;
+
     function handleWillClick(evt) {
         isWillGeneratorActive = generator.toggle();
         generatorButtonText = 'Edit Will';
@@ -15,6 +19,7 @@
 
     function handleRemoteClick(evt) {
         generator.hide();
+        isWitnessesActive = witnessPlayer.toggle();
     }
 
     function handleSignaturesClick(evt) {
@@ -64,14 +69,21 @@
             <h2>Schedule Remote Witnesses</h2>
             <p>Invite two witnesses to view the real-time signing that can attest to the authenticity with e-signatures.</p>
             <div class="justify-items-center">
-                <button on:click={ handleRemoteClick } disabled={!isWillComplete}>Begin Remote Witness Session</button>
-                <button on:click={ handleSignaturesClick } disabled={!isWillComplete}>Send for Signatures</button>
+                <button on:click={ handleRemoteClick } disabled={!isWillComplete}>
+                {#if isWitnessesActive }
+                    Close
+                {:else}
+                    Begin Remote Witness Session
+                {/if}
+                </button>
+                <button on:click={ handleSignaturesClick } disabled={!(isWillComplete && isWitnessesActive)}>Send for Signatures</button>
             </div>
         </div>
     </div>
 
     <div class="flex h-4/6 w-screen">
         <WillGenerator bind:this={ generator } bind:isWillComplete bind:isWillGeneratorActive/>
+        <WitnessPlayer bind:this={ witnessPlayer } bind:isWitnessesActive/>
     </div>
 
     <footer class="absolute bottom-0 inset-x-0 h-16 text-center">
