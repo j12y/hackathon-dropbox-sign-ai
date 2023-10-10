@@ -5,7 +5,9 @@
 
     export let isWillComplete = false;
     export let isWillGeneratorActive = false;
-    export let will = '';
+    export let willContent = '';
+    export let testatorEmail = '';
+    export let testatorName = '';
 
     let step = 1;
     let totalSteps = 4;
@@ -33,7 +35,7 @@
 
     async function handleNextStep() {
         try {
-            will += await prompts[step].getWillContent();
+            willContent += await prompts[step].getWillContent();
         } catch {
             console.log("Invalid Step");
         }
@@ -45,7 +47,7 @@
     }
 
     function handleReset() {
-        will = '';
+        willContent = '';
         step = 1;
         isWillComplete = false;
     }
@@ -66,7 +68,7 @@
                     <h3>Prompt</h3>
                     
                     {#if step == 1}
-                    <Decedent bind:this={ prompts[1] } />
+                    <Decedent bind:this={ prompts[1] } bind:testatorEmail bind:testatorName />
                     {/if}
 
                     {#if step == 2}
@@ -94,7 +96,7 @@
                 <div>
                     <h3>Legal Document</h3>
                     <textarea class="block border-2 w-full text-sm border-slate-400 height-300 text-gray-900 bg-gray-50 p-2.5"
-                        bind:value={ will } 
+                        bind:value={ willContent } 
                         rows="15"
                         placeholder="Your generated Will appears here..."
                         />

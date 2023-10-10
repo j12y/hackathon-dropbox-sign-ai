@@ -1,16 +1,25 @@
 <script lang="ts">
     import WillGenerator from "$lib/wills/generator.svelte";
     import WitnessPlayer from "$lib/witnesses/player.svelte";
+    import SigningProcess from "$lib/signatures/process.svelte";
 
 
     let isWillComplete = false;
+    let willContent = '';
 
     let generator;
     let isWillGeneratorActive = false;
     let generatorButtonText = 'Get Started';
+    let testatorEmail = '';
+    let testatorName = '';
 
     let witnessPlayer;
     let isWitnessesActive = false;
+
+    let signingProcess;
+    let isSigningActive = false;
+    let isTestatorSigned = false;
+    let isWitnessSigned = false;
 
     function handleWillClick(evt) {
         isWillGeneratorActive = generator.toggle();
@@ -24,6 +33,7 @@
 
     function handleSignaturesClick(evt) {
         generator.hide();
+        isSigningActive = true;
     }
 
 </script>
@@ -76,14 +86,16 @@
                     Begin Remote Witness Session
                 {/if}
                 </button>
-                <button on:click={ handleSignaturesClick } disabled={!(isWillComplete && isWitnessesActive)}>Send for Signatures</button>
+                <button on:click={ handleSignaturesClick } disabled={!(isWillComplete && isWitnessesActive) || isSigningActive}>Send for Signatures</button>
+                {#if false }<button on:click={ handleSignaturesClick }>Send for Signatures (Test)</button>{/if}
             </div>
         </div>
     </div>
 
     <div class="flex h-4/6 w-screen">
-        <WillGenerator bind:this={ generator } bind:isWillComplete bind:isWillGeneratorActive/>
-        <WitnessPlayer bind:this={ witnessPlayer } bind:isWitnessesActive/>
+        <WillGenerator bind:this={ generator } bind:isWillComplete bind:isWillGeneratorActive bind:testatorEmail bind:testatorName bind:willContent />
+        <WitnessPlayer bind:this={ witnessPlayer } bind:isWitnessesActive />
+        <SigningProcess bind:this={ signingProcess } bind:isSigningActive bind:isTestatorSigned bind:isWitnessSigned bind:testatorEmail bind:testatorName bind:willContent />
     </div>
 
     <footer class="absolute bottom-0 inset-x-0 h-16 text-center">
