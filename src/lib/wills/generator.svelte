@@ -31,9 +31,9 @@
         return isWillComplete;
     }
 
-    function handleNextStep() {
+    async function handleNextStep() {
         try {
-            will += prompts[step].getWillContent();
+            will += await prompts[step].getWillContent();
         } catch {
             console.log("Invalid Step");
         }
@@ -47,6 +47,7 @@
     function handleReset() {
         will = '';
         step = 1;
+        isWillComplete = false;
     }
 
 
